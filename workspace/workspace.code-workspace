@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../carteira_energia/carteira_energia"
+		},
+		{
+			"path": "../infra_copel/infra_copel"
+		}
+	],
+	"settings": {}
+}

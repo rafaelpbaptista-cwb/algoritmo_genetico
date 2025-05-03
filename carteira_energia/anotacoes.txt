@@ -1,0 +1,11 @@
+- Planilha contendo as metas de compra e venda de energia
+    - Caminho: https://4c80k2.sharepoint.com/sites/PowerBIInsightsComercializacao/Base%20de%20Dados/Portf%C3%B3lios%20Recomendados/A+1/Meta%20-%20Risco%20A+1.xlsx
+    - Colunas da Planilha:
+        - Produto	
+        - Meta (MWmédio)	
+        - VE Fat (R$^6)	
+        - RISK A (R$^6)
+
+- Planilha contendo os cenários de preços PLD
+    - https://4c80k2.sharepoint.com/sites/PowerBIInsightsComercializacao/Base%20de%20Dados/Newave-Decomp/PLD/PLD.xlsx
+    - Possui nome do cenário, mês e valor para aquele determinado mês 
