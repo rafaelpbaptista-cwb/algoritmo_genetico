@@ -16,12 +16,12 @@ class Individuo:
     A propriedade *lista_cromossomo* é uma lista de 12 elementos onde cada indice representa a sugestão de compra ou venda de energia para um determinado mês
     """
 
-    configuracao_cenario: ConfiguracaoCenario
-    _estourou_limite_venda_energia: bool = False
-    nota_maxima_individuo_rodada: int = 0
-    geracao: int = 0
+    configuracao_cenario: ConfiguracaoCenario = field(repr=False)
+    _estourou_limite_venda_energia: bool = field(default=False, repr=False)
+    nota_maxima_individuo_rodada: int = field(default=0, repr=False)
+    geracao: int = field(default=0, repr=False)
     lista_cromossomo: list[GeneRepresentacaoMes] = field(default_factory=list)
-    gerar_cromossomo: bool = True
+    gerar_cromossomo: bool = field(default=True, repr=False)
 
     def __post_init__(self):
         self._gerar_cromossomo_aleatorio()

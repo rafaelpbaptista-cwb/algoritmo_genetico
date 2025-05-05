@@ -4,7 +4,7 @@ import logging
 
 logging.basicConfig(
     format="%(asctime)s %(name)-12s %(levelname)-8s %(message)s",
-    level=logging.DEBUG,
+    level=logging.INFO,
     handlers=[logging.FileHandler("log_execucao.log"), logging.StreamHandler()],
 )
 

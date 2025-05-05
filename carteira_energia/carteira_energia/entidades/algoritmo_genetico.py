@@ -1,6 +1,7 @@
 import copy
 import logging
 import csv
+import locale
 from random import random, choice, seed
 from operator import add, sub
 from pandas import DataFrame
@@ -9,17 +10,22 @@ from carteira_energia.entidades.configuracao_cenario import ConfiguracaoCenario
 from carteira_energia.entidades.individuo import Individuo
 from carteira_energia.util.utilidades import get_maior_nota_avaliacao_disponivel
 
+locale.setlocale(locale.LC_ALL, 'pt_BR.UTF-8') 
+
 class AlgoritmoGenetico():
     """
     Classe que utiliza algoritmo genético para a solução do problema de sugestão de carteira de compra e venda de energia
     """
 
     def __init__(self, ano_simulacao: int) -> None:
+        logging.info("Iniciando algoritmo genético para o ano %s", ano_simulacao)
+
         seed(146)
 
         self.configuracao_cenario = ConfiguracaoCenario(ano_simulacao)
         
-        self.lista_populacao = [Individuo(self.configuracao_cenario) for i in range(self.configuracao_cenario.tamanho_populacao)]
+        self.lista_populacao = [Individuo(self.configuracao_cenario) for _ in range(self.configuracao_cenario.tamanho_populacao)]
+        logging.info("Gerando população inicial. Quantidade de individuos: %s", len(self.lista_populacao))
 
         self._lista_melhores_individuos = []
         
@@ -40,16 +46,17 @@ class AlgoritmoGenetico():
         return self._lista_melhores_individuos
 
     def _avaliar_populacao(self):
+        self.lista_populacao = [individuo for individuo in self.lista_populacao if individuo.ganhos_financeiro_melhor_cenario > 0]
         self.lista_populacao.sort(reverse=True)
 
     def _selecionar_melhores_individuos(self):
-        melhor_individuo_rodada = self.lista_populacao[0]
-        self._lista_melhores_individuos.append(melhor_individuo_rodada)
+        if self.lista_populacao:
+            melhor_individuo_rodada = self.lista_populacao[0]
+            self._lista_melhores_individuos.append(melhor_individuo_rodada)
 
-        if self.melhor_individuo is None or \
-            self.melhor_individuo < melhor_individuo_rodada:
+            if self.melhor_individuo is None or self.melhor_individuo < melhor_individuo_rodada:
 
-            self.melhor_individuo = melhor_individuo_rodada
+                self.melhor_individuo = melhor_individuo_rodada
 
     def _selecao_pais(self):
         soma_pontuacao = sum(individuo.nota_avaliacao for individuo in self.lista_populacao)
@@ -139,25 +146,30 @@ class AlgoritmoGenetico():
         while True:
             logging.info('Executando a rodada/geracao %s', geracao)
 
+            logging.debug("_ajustar_individuos")
             self._ajustar_individuos()
 
+            logging.debug("_avaliar_populacao")  
             self._avaliar_populacao()
 
+            logging.debug("_selecionar_melhores_individuos")
             self._selecionar_melhores_individuos()
 
+            logging.debug("_crossover")
             self._crossover()
 
+            logging.debug("_mutacao_gene")
             self._mutacao_gene()
 
             if self.melhor_individuo.geracao + self.configuracao_cenario.limite_qtdade_geracoes_melhor_individuo == geracao:
                 logging.info('O melhor individuo esta a %s rodadas no top da selecao. Resolucao proplema finalizado', self.configuracao_cenario.limite_qtdade_geracoes_melhor_individuo)
                 break
 
-            logging.info('Geracao melhor individuo: %s. Nota: %s. Total R$ melhor cenario: %s. Total R$ pior cenario: %s',
+            logging.info('Geracao melhor individuo: %s. Nota: %s. Ganhos R$: %s. Risco: %s',
                             self.melhor_individuo.geracao,
-                            self.melhor_individuo.nota_avaliacao,
-                            self.melhor_individuo.ganhos_financeiro_melhor_cenario,
-                            self.melhor_individuo.risco_financeiro_cenario)
+                            locale.format_string('%.2f',self.melhor_individuo.nota_avaliacao, grouping=True),
+                            locale.format_string('%.2f', self.melhor_individuo.ganhos_financeiro_melhor_cenario, grouping=True),
+                            locale.format_string('%.2f', self.melhor_individuo.risco_financeiro_cenario, grouping=True))
             
             geracao += 1
 

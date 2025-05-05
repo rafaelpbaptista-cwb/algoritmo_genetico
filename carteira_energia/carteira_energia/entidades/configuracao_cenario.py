@@ -19,7 +19,7 @@ class ConfiguracaoCenario():
     - lista_preco_pld_mes: list contendo os preços dos PLDs mensais oriundos da rodada do newave. Cada indice da lista representa um mês do ano.
     Essa lista tem um tamanho máximo de 12 (cada mês do ano)
 
-    - lista_risco_mes: lista contendo a representaçaõ do risco de cada mês
+    - lista_risco_mes: lista contendo a representação do risco de cada mês
 
     """
     
@@ -31,7 +31,7 @@ class ConfiguracaoCenario():
     lista_preco_pld_mes: list[int] = field(default_factory=list)
     lista_risco_mes: list[int] = field(default_factory=list)
 
-    tamanho_populacao: int = 500
+    tamanho_populacao: int = 1000
     limite_qtdade_geracoes_melhor_individuo: int = 5
     
     w1_penalizacao_desvio_negativo: int = 0.6

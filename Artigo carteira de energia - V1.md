@@ -59,37 +59,37 @@ Cada etapa do algoritmo genético é implementada por um método na classe `Algo
 
 #### Ajustar Indivíduos
 ```python
-self._ajustar_individuos()
+AlgoritmoGenetico._ajustar_individuos()
 ```
-Garante que cada `Individuo` não exceda a meta anual de venda de energia. Aplica ajustes caso ultrapasse o limite.
+Garante que 80% dos objetos da classe `Individuo` não excedam a meta anual de venda de energia. Aplica ajustes caso ultrapasse o limite.
 
 #### Avaliar População
 ```python
-self._avaliar_populacao()
+AlgoritmoGenetico._avaliar_populacao()
 ```
 Ordena a população de indivíduos com base na função de avaliação que minimiza os riscos e desvios financeiros (`nota_avaliacao`).
 
 #### Selecionar Melhores Indivíduos
 ```python
-self._selecionar_melhores_individuos()
+AlgoritmoGenetico._selecionar_melhores_individuos()
 ```
 Armazena os melhores indivíduos da geração atual e atualiza o melhor global se for o caso.
 
 #### Crossover
 ```python
-self._crossover()
+AlgoritmoGenetico._crossover()
 ```
 Executa a combinação de cromossomos entre pares de indivíduos para gerar novos filhos que comporão a próxima geração.
 
 #### Mutação de Genes
 ```python
-self._mutacao_gene()
+AlgoritmoGenetico._mutacao_gene()
 ```
 Aplica mutações aleatórias nos genes dos indivíduos, respeitando a taxa de mutação definida na `ConfiguracaoCenario`.
 
 #### Condição de Parada
 ```python
-if self.melhor_individuo.geracao + limite_geracoes == geracao:
+if AlgoritmoGenetico.melhor_individuo.geracao + limite_geracoes == geracao:
     break
 ```
 Finaliza a execução quando o melhor indivíduo permanece o mesmo por um número predefinido de gerações consecutivas.
